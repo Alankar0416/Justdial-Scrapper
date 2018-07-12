@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-import urllib2
+import urllib
 import csv
 
 
@@ -50,11 +50,11 @@ service_count = 1
 
 
 fields = ['Name', 'Phone', 'Rating', 'Rating Count', 'Address', 'Location']
-out_file = open('Readymade-Garment-Retailers_agra.csv','wb')
+out_file = open('Readymade-Garment-Retailers_agra.csv','w')
 csvwriter = csv.DictWriter(out_file, delimiter=',', fieldnames=fields)
 
 # Write fields first
-csvwriter.writerow(dict((fn,fn) for fn in fields))
+#csvwriter.writerow(dict((fn,fn) for fn in fields))
 
 while True:
 
@@ -63,8 +63,8 @@ while True:
 		break
 
 	url="https://www.justdial.com/Agra/Readymade-Garment-Retailers/nct-10401947/page-%s" % (page_number)
-	req = urllib2.Request(url, headers={'User-Agent' : "Magic Browser"}) 
-	page = urllib2.urlopen( req )
+	req = urllib.request.Request(url, headers={'User-Agent' : "Magic Browser"}) 
+	page = urllib.request.urlopen( req )
 	# page=urllib2.urlopen(url)
 
 	soup = BeautifulSoup(page.read(), "html.parser")
@@ -85,7 +85,7 @@ while True:
 		if name != None:
 			dict_service['Name'] = name
 		if phone != None:
-			print 'getting phone number'
+			print('getting phone number')
 			dict_service['Phone'] = phone
 		if rating != None:
 			dict_service['Rating'] = rating
@@ -99,7 +99,7 @@ while True:
 		# Write row to CSV
 		csvwriter.writerow(dict_service)
 
-		print "#" + str(service_count) + " " , dict_service
+		print("#" + str(service_count) + " " , dict_service)
 		service_count += 1
 
 	page_number += 1
